@@ -7,45 +7,12 @@ function ($scope, $state, Network, Config, Messages) {
   $scope.sortType = 'Scope';
   $scope.sortReverse = false;
 
-  $scope.formValues = {
-    Subnet: '',
-    Gateway: ''
-  };
-
   $scope.config = {
     Name: '',
-    IPAM: {
-      Config: []
-    }
   };
-
-  $scope.order = function(sortType) {
-    $scope.sortReverse = ($scope.sortType === sortType) ? !$scope.sortReverse : false;
-    $scope.sortType = sortType;
-  };
-
-  $scope.selectItem = function (item) {
-    if (item.Checked) {
-      $scope.state.selectedItemCount++;
-    } else {
-      $scope.state.selectedItemCount--;
-    }
-  };
-
-  function prepareIPAMConfiguration(config) {
-    if ($scope.formValues.Subnet) {
-      var ipamConfig = {};
-      ipamConfig.Subnet = $scope.formValues.Subnet;
-      if ($scope.formValues.Gateway) {
-        ipamConfig.Gateway = $scope.formValues.Gateway  ;
-      }
-      config.IPAM.Config.push(ipamConfig);
-    }
-  }
 
   function prepareNetworkConfiguration() {
     var config = angular.copy($scope.config);
-    prepareIPAMConfiguration(config);
     if ($scope.swarm) {
       config.Driver = 'overlay';
     }
@@ -68,6 +35,19 @@ function ($scope, $state, Network, Config, Messages) {
       $('#createNetworkSpinner').hide();
       Messages.error("Failure", e, 'Unable to create network');
     });
+  };
+
+  $scope.order = function(sortType) {
+    $scope.sortReverse = ($scope.sortType === sortType) ? !$scope.sortReverse : false;
+    $scope.sortType = sortType;
+  };
+
+  $scope.selectItem = function (item) {
+    if (item.Checked) {
+      $scope.state.selectedItemCount++;
+    } else {
+      $scope.state.selectedItemCount--;
+    }
   };
 
   $scope.removeAction = function () {

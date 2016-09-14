@@ -14,6 +14,7 @@ angular.module('portainer', [
   'containerLogs',
   'containers',
   'createContainer',
+  'createNetwork',
   'docker',
   'events',
   'images',
